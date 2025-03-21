@@ -5,7 +5,7 @@ import torch.utils
 from unicore.modules import RMSNorm
 
 from .layers import DropPath, FeedForward
-from .window_attention import WindowAttention
+from .attention import Attention
 
 
 class TransformerLayer(nn.Module):
@@ -24,7 +24,7 @@ class TransformerLayer(nn.Module):
         super().__init__()
 
         self.attn_norm = RMSNorm(dim)
-        self.attn = WindowAttention(
+        self.attn = Attention(
             dim,
             num_heads=heads,
             dropout=attn_dropout,

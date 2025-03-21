@@ -19,7 +19,7 @@ def get_causal_mask(seq_q, seq_k, device):
     return causal_mask
 
 
-class WindowAttention(nn.Module):
+class Attention(nn.Module):
     def __init__(
         self,
         embed_dim,
