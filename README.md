@@ -36,7 +36,52 @@ Dependencies
   `docker pull dptechnology/unicore:2407-pytorch2.4.0-cuda12.5-rdma`
 
 
+Reproducing Results on QM9
+--------------------------
 
+To reproduce results on the QM9 dataset using our pretrained model or train from scratch, please follow the instructions below.
+
+### Download Pretrained Model and Dataset
+
+Download the pretrained checkpoint (`qm9.pt`) and the dataset archive (`qm9_data.tar.gz`) from our [Hugging Face repository](https://huggingface.co/dptech/Uni-3DAR/tree/main).
+
+### Inference with Pretrained Model
+
+To generate QM9 molecules using the pretrained model:
+
+```
+bash inference_qm9.sh qm9.pt
+```
+
+### Train from Scratch
+
+To train the model from scratch:
+
+1. Extract the dataset:
+```
+tar -xzvf qm9_data.tar.gz
+```
+
+2. Run the training script with your desired data path and experiment name:
+
+```
+base_dir=/your_folder_to_save/ bash train_qm9.sh ./qm9_data/ name_of_your_exp
+```
+
+
+Citation
+--------
+
+Please kindly cite our papers if you use the data/code/model.
+
+```
+@article{lu2025uni3dar,
+  author    = {Shuqi Lu and Haowei Lin and Lin Yao and Zhifeng Gao and Xiaohong Ji and Weinan E and Linfeng Zhang and Guolin Ke},
+  title     = {Uni-3DAR: Unified 3D Generation and Understanding via Autoregression on Compressed Spatial Tokens},
+  journal   = {Arxiv},
+  year      = {2025},
+}
+```
 
 
 

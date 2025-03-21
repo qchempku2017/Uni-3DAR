@@ -7,22 +7,21 @@
 [ -z "${seed}" ] && seed=1
 [ -z "${merge_level}" ] && merge_level=6
 
-# [ -z "${ema_decay}" ] && ema_decay=0.999
 [ -z "${data_path}" ] && data_path=None
 [ -z "${layer}" ] && layer=12
-[ -z "${batch_size}" ] && batch_size=8
+[ -z "${batch_size}" ] && batch_size=500
 [ -z "${emb_dim}" ] && emb_dim=768
 [ -z "${head_num}" ] && head_num=12
 
 [ -z "${more_args}" ] && more_args=""
 
 
-[ -z "${tree_temperature}" ] && tree_temperature=1.0
-[ -z "${atom_temperature}" ] && atom_temperature=1.0
-[ -z "${xyz_temperature}" ] && xyz_temperature=1.0
+[ -z "${tree_temperature}" ] && tree_temperature=0.9
+[ -z "${atom_temperature}" ] && atom_temperature=0.3
+[ -z "${xyz_temperature}" ] && xyz_temperature=0.3
 [ -z "${count_temperature}" ] && count_temperature=1.0
 [ -z "${num_samples}" ] && num_samples=10000
-[ -z "${rank_ratio}" ] && rank_ratio=0.5
+[ -z "${rank_ratio}" ] && rank_ratio=0.1
 [ -z "${rank_by}" ] && rank_by="atom"
 [ -z "${data_type}" ] && data_type=molecule
 if [ $data_type == "molecule" ]; then
@@ -35,11 +34,6 @@ echo "save_path" $save_path
 
 export TORCH_NCCL_ASYNC_ERROR_HANDLING=1
 export OMP_NUM_THREADS=1
-echo "n_gpu per node" $n_gpu
-echo "OMPI_COMM_WORLD_SIZE" $OMPI_COMM_WORLD_SIZE
-echo "OMPI_COMM_WORLD_RANK" $OMPI_COMM_WORLD_RANK
-echo "MASTER_IP" $MASTER_IP
-echo "MASTER_PORT" $MASTER_PORT
 
 
 torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OMPI_COMM_WORLD_RANK  --master_addr=$MASTER_IP --master_port=$MASTER_PORT \
@@ -60,4 +54,4 @@ torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OM
       $more_args
 
 
-
+python evaluation_scripts/qm9/molecule_metrics.py $save_path $save_path.json 
