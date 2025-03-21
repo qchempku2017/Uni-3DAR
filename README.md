@@ -5,7 +5,7 @@ Uni-3DAR
 Introduction
 ------------
 
-<p align="center"><img src="fig/overview.png" width=80%></p>
+<p align="center"><img src="fig/overview.png" width=95%></p>
 <p align="center"><b>Schematic illustration of the Uni-3DAR framework</b></p>
 
 Uni-3DAR is an autoregressive model that unifies various 3D tasks. In particular, it offers the following improvements:
