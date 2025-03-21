@@ -43,9 +43,9 @@ echo "MASTER_PORT" $MASTER_PORT
 
 
 torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OMPI_COMM_WORLD_RANK  --master_addr=$MASTER_IP --master_port=$MASTER_PORT \
-      unigrid/inference.py $data_path --user-dir ./unigrid --train-subset train --valid-subset valid \
+      uni3dar/inference.py $data_path --user-dir ./uni3dar --train-subset train --valid-subset valid \
       --num-workers 8 --ddp-backend=c10d \
-      --task unigrid --loss ar --arch unigrid_sampler \
+      --task uni3dar --loss ar --arch uni3dar_sampler \
       --bf16 \
       --emb-dim $emb_dim --num-head $head_num  \
       --layer $layer \

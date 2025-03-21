@@ -5,9 +5,9 @@ from unicore.models import (
 from functools import partial
 import torch
 from torch.nn import functional as F
-from .unigrid import UniGrid, DecoderInputFeat, base_architecture
-from unigrid.data.atom_data import atom_list
-from unigrid.data.grid_utils import subcell_orders
+from .uni3dar import Uni3DAR, DecoderInputFeat, base_architecture
+from uni3dar.data.atom_data import atom_list
+from uni3dar.data.grid_utils import subcell_orders
 import numpy as np
 import time
 
@@ -129,8 +129,8 @@ def results_from_predictions(
     return atom_results, atom_scores, seq_len
 
 
-@register_model("unigrid_sampler")
-class UniGridSampler(UniGrid):
+@register_model("uni3dar_sampler")
+class Uni3DARSampler(Uni3DAR):
 
     def __init__(self, args, dictionary):
         super().__init__(args, dictionary)
@@ -852,6 +852,6 @@ class UniGridSampler(UniGrid):
         return xyz, score
 
 
-@register_model_architecture("unigrid_sampler", "unigrid_sampler")
+@register_model_architecture("uni3dar_sampler", "uni3dar_sampler")
 def sampler_base_architecture(args):
     args = base_architecture(args)

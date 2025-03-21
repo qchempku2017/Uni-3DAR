@@ -127,8 +127,8 @@ class DecoderPredTargetFeat:
         self.rot = rot
 
 
-@register_model("unigrid")
-class UniGrid(BaseUnicoreModel):
+@register_model("uni3dar")
+class Uni3DAR(BaseUnicoreModel):
     """
     Class for training a Masked Language Model. It also supports an
     additional sentence level prediction if the sent-loss argument is set.
@@ -780,7 +780,7 @@ class UniGrid(BaseUnicoreModel):
         self._num_updates = num_updates
 
 
-@register_model_architecture("unigrid", "unigrid")
+@register_model_architecture("uni3dar", "uni3dar")
 def base_architecture(args):
     args.emb_dim = getattr(args, "emb_dim", 512)
     args.layer = getattr(args, "layer", 16)

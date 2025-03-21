@@ -13,4 +13,4 @@ import importlib
 # automatically import any Python files in the losses/ directory
 for file in sorted(Path(__file__).parent.glob("*.py")):
     if not file.name.startswith("_"):
-        importlib.import_module("unigrid.losses." + file.name[:-3])
+        importlib.import_module("uni3dar.losses." + file.name[:-3])

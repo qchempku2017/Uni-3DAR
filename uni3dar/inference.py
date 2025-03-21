@@ -86,7 +86,7 @@ def main(args) -> None:
     if torch.cuda.is_available():
         torch.cuda.manual_seed(args.seed)
 
-    args.model = "unigrid_sampler"
+    args.model = "uni3dar_sampler"
     # Print args
     logger.info(args)
 

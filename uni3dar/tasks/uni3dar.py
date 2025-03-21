@@ -11,7 +11,7 @@ import torch
 
 import numpy as np
 from unicore.data import NestedDictionaryDataset, EpochShuffleDataset
-from unigrid.data import (
+from uni3dar.data import (
     LMDBDataset,
     GridDataset,
     ConformationSampleDataset,
@@ -25,8 +25,8 @@ from unicore.tasks import UnicoreTask, register_task
 logger = logging.getLogger(__name__)
 
 
-@register_task("unigrid")
-class UniGrid(UnicoreTask):
+@register_task("uni3dar")
+class Uni3DAR(UnicoreTask):
     """Task for training transformer auto-encoder models."""
 
     @staticmethod

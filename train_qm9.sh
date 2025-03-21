@@ -55,9 +55,9 @@ export WANDB_DISABLED=true
 export WANDB_MODE=offline
 
 torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OMPI_COMM_WORLD_RANK  --master_addr=$MASTER_IP --master_port=$MASTER_PORT \
-      $(which unicore-train) $data_path --user-dir ./unigrid --train-subset train --valid-subset valid \
+      $(which unicore-train) $data_path --user-dir ./uni3dar --train-subset train --valid-subset valid \
       --num-workers 8 --ddp-backend=c10d \
-      --task unigrid --loss ar --arch unigrid \
+      --task uni3dar --loss ar --arch uni3dar \
       --bf16 --tensorboard-logdir $save_dir/tsb \
       --wandb-project $wandb_project --wandb-name $base_name \
       --emb-dim $emb_dim --num-head $head_num  \
