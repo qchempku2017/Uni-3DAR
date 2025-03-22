@@ -219,8 +219,10 @@ def build_xae_molecule(
     positions, atom_type, single_bond=False, mol_wanted=True, save_path=None
 ):
     n = positions.shape[0]
-    assert positions.shape[1] == 3, "positions 必须是 (n_atoms, 3) 的数组"
-    assert len(atom_type) == n, "positions 和 atom_type 的长度不匹配"
+    assert (
+        positions.shape[1] == 3
+    ), "Positions must be a 2D array with shape (n_atoms, 3)."
+    assert len(atom_type) == n, "Dimension mismatch between positions and atom_type."
 
     A = np.zeros((n, n), dtype=bool)
     E = np.zeros((n, n), dtype=int)
