@@ -1,6 +1,6 @@
 Uni-3DAR
 ========
-[[Paper](https://arxiv.org/pdf/2503.16278)]
+[[Paper](https://arxiv.org/abs/2503.16278)]
 
 Introduction
 ------------
