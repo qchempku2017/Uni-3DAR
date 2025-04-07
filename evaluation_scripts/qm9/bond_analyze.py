@@ -193,10 +193,10 @@ def get_bond_order(atom1, atom2, distance, check_exists=True, single_bond=False)
     # typical bond length.
     if check_exists:
         if atom1 not in bonds1:
-            print(f"Atom {atom1} not in bonds1")
+            # print(f"Atom {atom1} not in bonds1")
             return 0
         if atom2 not in bonds1[atom1]:
-            print(f"Atom {atom2} not in bonds1[{atom1}]")
+            # print(f"Atom {atom2} not in bonds1[{atom1}]")
             return 0
 
     # margin1, margin2 and margin3 have been tuned to maximize the stability of
@@ -260,7 +260,8 @@ def build_xae_molecule(
             if bond_type is not None:
                 mol.AddBond(int(i), int(j), bond_type)
             else:
-                print(f"Warning: Invalid bond type {E[i, j]} at indices ({i}, {j})")
+                pass
+                # print(f"Warning: Invalid bond type {E[i, j]} at indices ({i}, {j})")
 
     conf = Chem.Conformer(n)
     for i, pos in enumerate(positions):

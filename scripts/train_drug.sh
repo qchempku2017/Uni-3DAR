@@ -6,13 +6,13 @@
 [ -z "${data_type}" ] && data_type=molecule
 [ -z "${lr}" ] && lr=3e-4
 [ -z "${min_lr}" ] && min_lr=1e-9
-[ -z "${warmup_steps}" ] && warmup_steps=30000
+[ -z "${warmup_steps}" ] && warmup_steps=50000
 [ -z "${total_steps}" ] && total_steps=500000
 [ -z "${update_freq}" ] && update_freq=1
 [ -z "${seed}" ] && seed=1
 [ -z "${clip_norm}" ] && clip_norm=1
 [ -z "${weight_decay}" ] && weight_decay=1e-4
-[ -z "${merge_level}" ] && merge_level=6
+[ -z "${merge_level}" ] && merge_level=7
 
 
 [ -z "${layer}" ] && layer=12
@@ -76,7 +76,8 @@ torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OM
       --ema-decay 0.999 --validate-with-ema \
       --lr-scheduler cosine --warmup-init-lr 1e-9 --min-lr $min_lr \
       --grid-len 0.24  --gzip --H-prob 1.0 --xyz-resolution 0.01 --recycle 1 --loss-ratio-tree 1.0 --loss-ratio-atom 1.0 --loss-ratio-xyz 0.1 \
-      --tree-delete-start-layer 1 --tree-delete-ratio 0.1 --head-dropout 0.1 \
+      --tree-delete-start-layer 1 --tree-delete-ratio 0.1 --head-dropout 0.1 --enable-cutoff \
+      --allow-atoms H,C,N,O,F,B,Al,Si,P,S,Cl,As,Br,I,Hg,Bi \
       $more_args \
       2>&1 | tee -a ${log_save_dir}
 
