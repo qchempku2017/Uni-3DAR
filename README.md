@@ -65,8 +65,46 @@ tar -xzvf qm9_data.tar.gz
 2. Run the training script with your desired data path and experiment name:
 
 ```
-base_dir=/your_folder_to_save/ bash scripts/train_qm9.sh ./qm9_data/ name_of_your_exp
+base_dir=/your_folder_to_save/ batch_size=16 bash scripts/train_qm9.sh ./qm9_data/ name_of_your_exp
 ```
+
+Note: By default, we train QM9 using 4 GPUs, with a total batch size of `4 × 16 = 64`. You may adjust the batch size based on your available GPU configuration.
+
+
+Reproducing Results on DRUG
+---------------------------
+
+To reproduce results on the DRUG dataset using our pretrained model or train from scratch, please follow the instructions below.
+
+### Download Pretrained Model and Dataset
+
+Download the pretrained checkpoint (`drug.pt`) and the dataset archive (`drug_data.tar.gz`) from our [Hugging Face repository](https://huggingface.co/dptech/Uni-3DAR/tree/main).
+
+### Inference with Pretrained Model
+
+To generate DRUG molecules using the pretrained model:
+
+```
+bash scripts/inference_drug.sh drug.pt
+```
+
+### Train from Scratch
+
+To train the model from scratch:
+
+1. Extract the dataset:
+```
+tar -xzvf drug_data.tar.gz
+```
+
+2. Run the training script with your desired data path and experiment name:
+
+```
+base_dir=/your_folder_to_save/ batch_size=16 bash scripts/train_drug.sh ./drug_data/ name_of_your_exp
+```
+
+Note: By default, we train DRUG using 8 GPUs, with a total batch size of `8 × 16 = 128`. You may adjust the batch size based on your available GPU configuration.
+
 
 
 Citation
