@@ -50,7 +50,7 @@ Download the pretrained checkpoint (`qm9.pt`) and the dataset archive (`qm9_data
 To generate QM9 molecules using the pretrained model:
 
 ```
-bash inference_qm9.sh qm9.pt
+bash scripts/inference_qm9.sh qm9.pt
 ```
 
 ### Train from Scratch
@@ -65,7 +65,7 @@ tar -xzvf qm9_data.tar.gz
 2. Run the training script with your desired data path and experiment name:
 
 ```
-base_dir=/your_folder_to_save/ bash train_qm9.sh ./qm9_data/ name_of_your_exp
+base_dir=/your_folder_to_save/ bash scripts/train_qm9.sh ./qm9_data/ name_of_your_exp
 ```
 
 
