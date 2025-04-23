@@ -59,7 +59,9 @@ def get_crystal_cond(
     assert args.data_type == "crystal"
     level = args.merge_level + 1
 
+    # Cond data has no use if not working with pxrd mode. Just use None if not using pxrd.
     if args.crystal_pxrd > 0:
+        assert cond_data is not None
         pxrd_x_range_max = 120
         assert pxrd_x_range_max % args.crystal_pxrd == 0
         pxrd_x = cond_data["pxrd_x"]

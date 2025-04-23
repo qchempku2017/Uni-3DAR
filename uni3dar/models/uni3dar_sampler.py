@@ -15,6 +15,8 @@ from uni3dar.data.crystal_data_utils import (
 import numpy as np
 import time
 
+from ase.data import chemical_symbols
+
 
 NUM_FEAT = 8
 IDX_TYPE = 3
@@ -673,7 +675,7 @@ class Uni3DARSampler(Uni3DAR):
     def generate(
         self,
         data=None,
-        atom_constraint=None,
+        atom_constraint=None,  # atom types (in Z - 1) for each atom in structure.
     ):
         batch_size = self.args.batch_size
         self.eval()
@@ -703,9 +705,26 @@ class Uni3DARSampler(Uni3DAR):
                 (
                     kv_cache,
                     cond,
-                    num_atoms,
+                    num_atoms,  # Number of atoms in a structure
                 ) = self.crystal_cond_prefilling_with_data(
                     data,
+                    batch_size,
+                    device,
+                    kv_cache,
+                )
+                cond_vars["cond"] = cond.unsqueeze(1)
+                # set the total atoms to the known atoms
+                count_vars["known_atoms"][:, 1] = num_atoms
+
+        # Add handling to composition constraint case.
+        if (data is None) and (atom_constraint is not None):
+            if self.args.data_type == "crystal":
+                (
+                    kv_cache,
+                    cond,
+                    num_atoms,  # Number of atoms in a structure
+                ) = self.crystal_cond_prefilling_with_atom_types(
+                    atom_constraint,
                     batch_size,
                     device,
                     kv_cache,
@@ -907,6 +926,65 @@ class Uni3DARSampler(Uni3DAR):
         )
         # return the processed results
         return xyz, score
+
+    def crystal_cond_prefilling_with_atom_types(
+            self,
+            atom_type,
+            batch_size,
+            device,
+            kv_cache,
+    ):
+        """Prefill condition vector with composition information.
+
+        Args:
+            atom_type(list[int]): atom types (in Z - 1) for each atom in structure.
+            batch_size(int): number of samples in the batch.
+            device(str): device to use for computation.
+            kv_cache(list): key-value cache for the model.
+        Return:
+            kv_cache: updated key-value cache.
+            cond: condition vector for the model.
+            num_atoms: number of atoms in the structure.
+        """
+        # A dummy data entry containing no geometric information.
+        atom_type = [chemical_symbols[idx + 1] for idx in atom_type]
+        data = get_crystal_cond(
+            self.args,
+            None,
+            atom_type,
+            False,
+            self.dictionary,
+            self.xyz_null_id,
+            bsz=batch_size,
+        )
+        for key in data:
+            data[key] = torch.from_numpy(data[key]).to(device)
+
+        dummy_input = DecoderInputFeat(
+            data["decoder_type"],
+            data["decoder_xyz"],
+            data["decoder_level"],
+            data["decoder_phy_pos"],
+            torch.zeros_like(data["decoder_type"]),
+            torch.zeros_like(data["decoder_type"]),
+            data["decoder_remaining_atoms"],
+            data["decoder_remaining_tokens"],
+            data["decoder_count"],
+        )
+
+        with torch.no_grad():
+            _, c = self.forward_model(
+                dummy_input,
+                kv_cache_list=kv_cache,
+                need_norm=False,
+                pxrd=None,
+                components=(
+                    data["components"] if self.args.crystal_component > 0 else None
+                ),
+            )
+
+        return kv_cache, c, len(atom_type)
+
 
     def crystal_cond_prefilling_with_data(
         self,

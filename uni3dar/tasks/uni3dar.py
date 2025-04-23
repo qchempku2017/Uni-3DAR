@@ -5,6 +5,7 @@
 
 import logging
 import math
+import json
 import os
 import torch
 
@@ -296,6 +297,17 @@ class Uni3DAR(UnicoreTask):
             "--atom-target-rotate",
             default=False,
             action="store_true",
+        )
+        parser.add_argument(
+            "--cond-on-comp-string",
+            type=json.loads,
+            default=None,
+            help=(
+                "Provide a string of dict-like condition specifying number of atoms per element, "
+                "e.g., '{\"Li\":3, \"P\":1, \"S\":4}'. If None, fallback to original behavior. "
+                "Note: string must be valid JSON."
+                "PS: I have no time to clean up this pile of shit so I just add a flag to bypass."
+            )
         )
 
     def __init__(self, args):
