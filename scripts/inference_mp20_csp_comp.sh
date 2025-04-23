@@ -21,7 +21,7 @@
 [ -z "${atom_temperature}" ] && atom_temperature=0.3
 [ -z "${xyz_temperature}" ] && xyz_temperature=0.3
 [ -z "${count_temperature}" ] && count_temperature=1.0
-[ -z "${num_samples}" ] && num_samples=1
+[ -z "${num_samples}" ] && num_samples=200
 [ -z "${rank_ratio}" ] && rank_ratio=0.8
 [ -z "${rank_by}" ] && rank_by="atom+xyz"
 [ -z "${data_type}" ] && data_type=crystal
