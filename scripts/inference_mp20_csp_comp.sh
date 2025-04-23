@@ -14,6 +14,7 @@
 [ -z "${head_num}" ] && head_num=16
 
 [ -z "${more_args}" ] && more_args=""
+[ -z "${comp_string}" ] && comp_string='{"Li": 3, "P": 1, "S": 4}'
 
 
 [ -z "${tree_temperature}" ] && tree_temperature=0.4
@@ -49,7 +50,7 @@ torchrun --nproc_per_node=$n_gpu --nnodes=$OMPI_COMM_WORLD_SIZE  --node_rank=$OM
       --save-path $save_path --gzip \
       --grid-len 0.24  --xyz-resolution 0.01 --recycle 1  \
       --atom-type-key atom_type --atom-pos-key atom_pos --lattice-matrix-key lattice_matrix --allow-atoms all  --head-dropout 0.1 \
-      --cond-on-comp-string '{"Li": 3, "P": 1, "S": 4}' \
+      --cond-on-comp-string "${comp_string}" \
       --crystal-component 1 --crystal-component-sqrt --crystal-component-noise 0.1 --max-num-atom 128 \
       --finetune-from-model $1 \
       $more_args

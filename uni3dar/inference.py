@@ -324,6 +324,7 @@ def main(args) -> None:
     elif args.data_type == "crystal":
         if args.crystal_pxrd > 0 or args.crystal_component > 0:
             if args.cond_on_comp_string is None:
+                logger.info("Conditioned on dataset entry (old behavior).")
                 dataset = LMDBDataset(
                     os.path.join(args.data, "test.lmdb"),
                     key_to_id=True,
@@ -340,6 +341,7 @@ def main(args) -> None:
                 )
             else:
                 # Bypass their shitty dataset logic.
+                logger.info(f"Conditioned on composition {args.cond_on_comp_string} (new behavior).")
                 inference_crystal_comp(
                     args,
                     model,
@@ -347,6 +349,7 @@ def main(args) -> None:
                     output_file
                 )
         else:
+            logger.info("Unconditioned generation (old behavior).")
             inference_crystal(model, total_n, output_file)
     end = time.time()
     print(f"Total time: {end - start}")
